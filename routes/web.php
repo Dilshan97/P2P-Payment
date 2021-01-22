@@ -21,8 +21,9 @@ Auth::routes();
 
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
+Route::get('/verify-payment/{id}', 'PaymentVerificationController@verifyPayment')->name('payment-verify');
+
 Route::group(['middleware' => ['auth']], function () {
     Route::post('/transfer-payment', 'PaymentController@transferPayment')->name('payment-transfer');
     Route::get('/transactions', 'PaymentController@transactions')->name('payment-account');
-    Route::get('/verify-payment/{id}', 'PaymentController@verifyPayment')->name('payment-verify');
 });

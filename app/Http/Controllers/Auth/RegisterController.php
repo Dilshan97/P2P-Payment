@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Account;
 use App\Http\Controllers\Controller;
+use App\Payment;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -73,9 +74,23 @@ class RegisterController extends Controller
         if($user->save()) {
             $account = new Account();
             $account->user_id = $user->id;
-            $account->account_balance = 0;
+            $account->account_balance = 5000;
             $account->save();
+
+            $transactions = Payment::where('email', $data['email'])->get();
+
+            if(count($transactions) > 0) {
+                $account->account_balance = $account->account_balance + Payment::where('email', $data['email'])->sum('amount');
+                $account->update();
+
+                foreach($transactions as $transaction) {
+                    $transaction->status = 'approved';
+                    $transaction->token = null;
+                    $transaction->update();
+                }
+            }
         }
+
         return $user;
     }
 }

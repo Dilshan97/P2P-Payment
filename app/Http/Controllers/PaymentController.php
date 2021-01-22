@@ -14,7 +14,7 @@ class PaymentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     public function transferPayment(Request $request) 
@@ -69,35 +69,11 @@ class PaymentController extends Controller
         } 
     }
 
-    public function verifyPayment($id)
-    {
-        $user = Payment::where('token', $id)->first();
-
-        if($user) {
-            $exist_user = User::where('email', $user->email);
-            if($exist_user) {
-                $user->status = 'approved';
-                $user->token = null;
-                $user->save();
-
-                $account = $exist_user->account();
-                $account->account_balance = ((int)$account->account_balance - (int)$user->amount);
-                $account->save();
-
-                return redirect(route('login'));
-            }
-            else {
-                return redirect(route('register'));
-            }
-        } else {
-            return redirect(route('login'))->with('toast_error', 'Invalid Transaction Token!');
-        }
-    }
 
     public function transactions()
     {
-        $transactions = Auth::user()->payments;
-        // dd($transactions);
+        $transactions = Payment::where('email', Auth::user()->email)->orderBy('id', 'DESC')->get();
+        
         return view('transactions', compact('transactions'));
     }
 }

@@ -27,7 +27,6 @@
                                     <th>Date</th>
                                     <th>Description</th>
                                     <th>Amount</th>
-                                    <th>Balance</th>
                                 </tr>
                             </thead>
             
@@ -35,10 +34,9 @@
                                 @foreach ($transactions as $key => $transaction)
                                     <tr>
                                         <td>{{$key + 1}}</td>
-                                        <td>{{$transaction->updated_at->format('Y-m-d')}} LKR</td>
+                                        <td>{{$transaction->updated_at->format('Y-m-d')}} </td>
                                         <td>Transaction</td>
-                                        <td>{{number_format($transaction->amount,2)}}</td>
-                                        <td>1000</td>
+                                        <td>{{number_format($transaction->amount,2)}} LKR</td>
                                     </tr>
                                 @endforeach
                             </tbody>
