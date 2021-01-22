@@ -18,17 +18,13 @@ Install PHP Dependencies using the following command.
  
 Create env file using the following command.
   
-`copy .env.example .env`
+`copy .env.example and rename to .env`
 
 Generate App Key using the following command.
   
 `php artisan key:generate`
 
 Fill all needed credentials in env and setup database.
-
-Create storage link using the following command.
-  
-`php artisan storage:link`
 
 Create database tables using the following command.
   
